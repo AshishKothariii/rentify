@@ -37,7 +37,7 @@ func main() {
 	userService := services.NewUserService(userRepo)
 	// Initialize controllers
 	userController := controller.NewUserController(userService)
-
+  fmt.Print("hello it is ruuning")
 	// Set up the router
 	router := gin.Default()
 	router.Use(gin.Logger())
@@ -63,6 +63,7 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
+	fmt.Print(port)
 
 	if err := router.Run(":" + port); err != nil {
 		log.Fatal(err)

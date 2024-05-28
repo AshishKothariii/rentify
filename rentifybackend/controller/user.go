@@ -52,7 +52,7 @@ func (uc *UserController) RegisterUser(c *gin.Context) {
                 }    
                             c.SetSameSite(http.SameSiteNoneMode)
       
-        c.SetCookie("token", token, 3600, "/", os.Getenv("CLIENT_URL"), false, true)
+        c.SetCookie("token", token, 3600, "/", os.Getenv("CLIENT_URL"), true, true)
 
 
         c.JSON(http.StatusCreated, gin.H{"email":user.Email,"isLoggedin":true})
@@ -81,7 +81,7 @@ func (uc *UserController) RegisterUser(c *gin.Context) {
                         return
                 }                         
                             c.SetSameSite(http.SameSiteNoneMode)
-                        c.SetCookie("token", token, 3600, "/", os.Getenv("CLIENT_URL"), false, true)
+                        c.SetCookie("token", token, 3600, "/", os.Getenv("CLIENT_URL"), true, true)
                         c.JSON(http.StatusOK,gin.H{
                                 "isLoggedin":true,
                                 "email":user.Email,
@@ -94,7 +94,7 @@ func (uc *UserController) RegisterUser(c *gin.Context) {
 func (uc *UserController)  Logout(c *gin.Context) {
             c.SetSameSite(http.SameSiteNoneMode)
 
-        c.SetCookie("token", "", -1, "/", os.Getenv("CLIENT_URL"), false, true)
+        c.SetCookie("token", "", -1, "/", os.Getenv("CLIENT_URL"), true, true)
         c.JSON(http.StatusOK, gin.H{
                 "isLoggedin":false,
         })

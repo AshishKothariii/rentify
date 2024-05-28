@@ -52,7 +52,7 @@ func (uc *UserController) RegisterUser(c *gin.Context) {
                 }    
                             c.SetSameSite(http.SameSiteNoneMode)
       
-        c.SetCookie("token", token, 3600, "/", os.Getenv("CLIENT_URL"), false, false)
+        c.SetCookie("token", token, 3600, "/", os.Getenv("CLIENT_URL"), false, true)
 
 
         c.JSON(http.StatusCreated, gin.H{"email":user.Email,"isLoggedin":true})
@@ -79,8 +79,9 @@ func (uc *UserController) RegisterUser(c *gin.Context) {
                 if err != nil {
                         c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
                         return
-                }
-                        c.SetCookie("token", token, 3600, "/", os.Getenv("CLIENT_URL"), false, false)
+                }                             c.SetSameSite(http.SameSiteNoneMode)
+
+                        c.SetCookie("token", token, 3600, "/", os.Getenv("CLIENT_URL"), false, true)
                         c.JSON(http.StatusOK,gin.H{
                                 "isLoggedin":true,
                                 "email":user.Email,

@@ -9,7 +9,7 @@ type Listing struct {
 	Description   string        `bson:"description" json:"description"`
 	City          string     		`bson:"city" json:"city"`
 	Address       string        `bson:"address" json:"address"`
-	RegularPrice  float64       `bson:"regular_price" json:"regular_price"`
+	RegularPrice  int      `bson:"regular_price" json:"regular_price"`
 	Bachelors     bool               `bson:"bachelors" json:"bachelors"`
 	Bhk           int           `bson:"bhk" json:"bhk"`
 	Furnished     bool          `bson:"furnished" json:"furnished"`

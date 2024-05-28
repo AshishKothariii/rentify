@@ -12,15 +12,14 @@ import (
 	"github.com/AshishKothariii/rentifybackend/repository"
 	"github.com/AshishKothariii/rentifybackend/services"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Print(err)
-		return
-	}
+	//err := godotenv.Load()
+//	if err != nil {
+	//	fmt.Print(err)
+	//	return
+	//}
 	// Connect to MongoDB
 	client, err := db.Init()
 	if err != nil {

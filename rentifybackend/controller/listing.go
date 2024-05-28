@@ -23,8 +23,10 @@ func (uc *UserController) CreateListing(c *gin.Context){
 		log.Fatal(err)
 	c.JSON(http.StatusExpectationFailed,"failed")	
 	}
+	fmt.Print("local")
 	collection :=client.Database(os.Getenv("DB_NAME")).Collection("listings")
         token, _ := c.Cookie("token")
+	fmt.Print(token)
         ans,_ := utils.ParseJWT(token)
         fmt.Println(ans)
         userid,_ :=primitive.ObjectIDFromHex(ans)

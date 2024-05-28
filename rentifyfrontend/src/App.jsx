@@ -18,14 +18,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route
-          path="/mylistings"
-          element={isLoggedIn ? <Mylistings></Mylistings> : <Login></Login>}
-        />
-        <Route
-          path="/property"
-          element={isLoggedIn ? <Property></Property> : <Login></Login>}
-        />
+        <Route path="/mylistings" element={<Mylistings></Mylistings>} />
+        <Route path="/property" element={<Property></Property>} />
         <Route
           path="/listing/id/:id"
           element={isLoggedIn ? <Listing /> : <Login />}

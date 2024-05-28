@@ -23,9 +23,13 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const data = await axios.post("http://localhost:8080/login", formData, {
-        withCredentials: true,
-      });
+      const data = await axios.post(
+        "https://rentify-da6y.onrender.com/login",
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
       Cookies.set("email", data.data.email);
       login(data.data.email);
       navigate("/");

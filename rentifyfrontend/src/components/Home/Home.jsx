@@ -5,44 +5,54 @@ import "./Home.css";
 import LogNavbar from "../NavBar/LogNavbar";
 import { useAuth } from "../../AuthContext";
 import axios from "axios";
-const data = await getData();
 
-async function getData() {
-  const data = await axios.get("http://localhost:8080/listings");
-
-  return data.data.listings;
-}
 const Home = () => {
   const { isLoggedIn } = useAuth();
 
-  let [searchlocation, setsearchlocation] = useState([]);
-  let [searchbhk, setsearchbhk] = useState([]);
-  let [searchrent, setsearchrent] = useState(50000);
-  const [searchdata, setsearchdata] = useState(null);
-  const [outputdata, setoutputdata] = useState(data);
-  const [locationisExpanded, setlocationisExpanded] = useState(false);
-  const [bhkisExpanded, setbhkisExpanded] = useState(false);
-  const [rentisExpanded, setrentisExpanded] = useState(false);
+  const [searchlocation, setSearchLocation] = useState([]);
+  const [searchbhk, setSearchBhk] = useState([]);
+  const [searchrent, setSearchRent] = useState(50000);
+  const [searchdata, setSearchData] = useState(null);
+  const [outputdata, setOutputData] = useState([]);
+  const [locationisExpanded, setLocationIsExpanded] = useState(false);
+  const [bhkisExpanded, setBhkIsExpanded] = useState(false);
+  const [rentisExpanded, setRentIsExpanded] = useState(false);
+  const [originalData, setOriginalData] = useState([]);
 
-  const handlerentChange = (event) => {
-    setsearchrent(parseInt(event.target.value)); // Update the state with the new slider value
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "https://rentify-da6y.onrender.com/listings"
+        );
+        setOutputData(response.data.listings);
+        setOriginalData(response.data.listings);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const handleRentChange = (event) => {
+    setSearchRent(parseInt(event.target.value));
   };
-  const handlelocationToggle = () => {
-    setlocationisExpanded(!locationisExpanded);
+  const handleLocationToggle = () => {
+    setLocationIsExpanded(!locationisExpanded);
   };
-  const handlebhkToggle = () => {
-    setbhkisExpanded(!bhkisExpanded);
+  const handleBhkToggle = () => {
+    setBhkIsExpanded(!bhkisExpanded);
   };
-  const handlerentToggle = () => {
-    setrentisExpanded(!rentisExpanded);
+  const handleRentToggle = () => {
+    setRentIsExpanded(!rentisExpanded);
   };
 
   const handleLocationChange = (e) => {
     const { value, checked } = e.target;
     if (checked) {
-      setsearchlocation([...searchlocation, value]);
+      setSearchLocation([...searchlocation, value]);
     } else {
-      setsearchlocation(searchlocation.filter((loc) => loc !== value));
+      setSearchLocation(searchlocation.filter((loc) => loc !== value));
     }
   };
 
@@ -50,62 +60,52 @@ const Home = () => {
     const { value, checked } = e.target;
     const bhkvalue = parseInt(value);
     if (checked) {
-      setsearchbhk([...searchbhk, bhkvalue]);
+      setSearchBhk([...searchbhk, bhkvalue]);
     } else {
-      setsearchbhk(searchbhk.filter((bhk) => bhk !== bhkvalue));
+      setSearchBhk(searchbhk.filter((bhk) => bhk !== bhkvalue));
     }
   };
-  const handlesearch = () => {
-    setsearchdata({
+
+  const handleSearch = () => {
+    setSearchData({
       location: searchlocation,
       bhk: searchbhk,
       budget: searchrent,
     });
   };
+
   useEffect(() => {
-    const ans = [];
-    if (
-      !searchdata ||
-      (searchdata.location.length === 0 &&
-        searchdata.bhk.length === 0 &&
-        searchdata.budget === 0)
-    ) {
-      // If no search criteria are selected, show all data
-      setoutputdata(data);
-    } else {
-      for (var i = 0; i < data.length; i++) {
-        const property = data[i];
-        let locationMatch = true;
-        let bhkMatch = true;
-        let budgetMatch = true;
-
-        if (searchdata.location.length > 0) {
-          locationMatch = searchdata.location.includes(property.city);
-        }
-        if (searchdata.bhk.length > 0) {
-          bhkMatch = searchdata.bhk.includes(property.bhk);
-        }
-        if (searchdata.budget > 0) {
-          budgetMatch = searchdata.budget >= property.regular_price;
-        }
-
-        if (locationMatch && bhkMatch && budgetMatch) {
-          ans.push(property);
-        }
+    let filteredData = [...originalData];
+    if (searchdata) {
+      if (searchdata.location.length > 0) {
+        filteredData = filteredData.filter((property) =>
+          searchdata.location.includes(property.city)
+        );
       }
-      setoutputdata(ans);
+      if (searchdata.bhk.length > 0) {
+        filteredData = filteredData.filter((property) =>
+          searchdata.bhk.includes(property.bhk)
+        );
+      }
+      if (searchdata.budget > 0) {
+        filteredData = filteredData.filter(
+          (property) => property.regular_price <= searchdata.budget
+        );
+      }
     }
-  }, [searchdata]);
+    setOutputData(filteredData);
+  }, [searchdata, originalData]);
 
   return (
     <div style={{ overflowX: "hidden" }}>
-      {isLoggedIn ? <LogNavbar></LogNavbar> : <Navbar />}
+      {isLoggedIn ? <LogNavbar /> : <Navbar />}
       <div className="contentbody">
         <div className="verticalbar1">
           <div style={{ display: "flex", flexDirection: "column" }}>
+            {/* Location Filter */}
             <div
               style={{ display: "flex", cursor: "pointer" }}
-              onClick={handlelocationToggle}
+              onClick={handleLocationToggle}
             >
               <span>Select Location</span>
               <span style={{ marginLeft: "138px" }}>
@@ -151,10 +151,11 @@ const Home = () => {
               </div>
             )}
           </div>
+          {/* BHK Filter */}
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div
               style={{ display: "flex", cursor: "pointer" }}
-              onClick={handlebhkToggle}
+              onClick={handleBhkToggle}
             >
               <span>BHK</span>
               <span style={{ marginLeft: "230px" }}>
@@ -200,10 +201,11 @@ const Home = () => {
               </div>
             )}
           </div>
+          {/* Maximum Budget Filter */}
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div
               style={{ display: "flex", cursor: "pointer" }}
-              onClick={handlerentToggle}
+              onClick={handleRentToggle}
             >
               <span>Maximum Budget</span>
               <span style={{ marginLeft: "135px" }}>
@@ -217,9 +219,9 @@ const Home = () => {
                     type="range"
                     min={1000}
                     max={50000}
-                    step={1000} // You can adjust the step size as needed
+                    step={1000}
                     value={searchrent}
-                    onChange={handlerentChange}
+                    onChange={handleRentChange}
                     className="Budgetslider"
                   />
                   <p>Value: {searchrent} ₹</p>
@@ -227,6 +229,7 @@ const Home = () => {
               </div>
             )}
           </div>
+          {/* Search Button */}
           <div
             style={{
               position: "relative",
@@ -234,7 +237,7 @@ const Home = () => {
               alignSelf: "center",
             }}
           >
-            <button style={{ width: "240px" }} onClick={handlesearch}>
+            <button style={{ width: "240px" }} onClick={handleSearch}>
               Search
             </button>
           </div>
@@ -283,6 +286,7 @@ const Propertycard = ({ d }) => {
       prevIndex === d.image_urls.length - 1 ? 0 : prevIndex + 1
     );
   };
+
   const { isLoggedIn } = useAuth();
 
   return (
@@ -352,4 +356,5 @@ const Propertycard = ({ d }) => {
     </div>
   );
 };
+
 export default Home;

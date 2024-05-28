@@ -12,10 +12,15 @@ import (
 	"github.com/AshishKothariii/rentifybackend/repository"
 	"github.com/AshishKothariii/rentifybackend/services"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Print(err)
+		return
+	}
 	// Connect to MongoDB
 	client, err := db.Init()
 	if err != nil {
@@ -55,7 +60,9 @@ func main() {
     router.POST("/userdetails",userController.GetUserByUserName)
 	// Periodically broadcast online users
 	port := os.Getenv("PORT")
-	
+	if port == "" {
+		port = "8080"
+	}
 	fmt.Print(port)
 
 	if err := router.Run(":" + port); err != nil {

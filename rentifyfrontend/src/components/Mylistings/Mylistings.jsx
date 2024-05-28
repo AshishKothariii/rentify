@@ -12,9 +12,12 @@ export default function Mylistings() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/mylistings", {
-        withCredentials: true, // Send cookies with the request
-      });
+      const response = await axios.get(
+        "https://rentify-da6y.onrender.com/mylistings",
+        {
+          withCredentials: true, // Send cookies with the request
+        }
+      );
       setMylist(response.data.listings);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -49,9 +52,12 @@ export default function Mylistings() {
 const Propertycard = ({ data }) => {
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8080/listings/id/${data.id}`, {
-        withCredentials: true,
-      });
+      await axios.delete(
+        `https://rentify-da6y.onrender.com/listings/id/${data.id}`,
+        {
+          withCredentials: true,
+        }
+      );
       // If deletion is successful, set 'deleted' state to true
     } catch (error) {
       console.error("Error deleting listing:", error);

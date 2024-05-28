@@ -16,7 +16,7 @@ const Listing = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/listings/id/${id}`,
+        `https://rentify-da6y.onrender.com/listings/id/${id}`,
         {
           withCredentials: true,
         }
@@ -73,7 +73,7 @@ const Propertycard = ({ data }) => {
   const rightarrow = ">";
   const fetchOwnerDetails = async (data) => {
     const response = await axios.post(
-      `http://localhost:8080/userdetails`,
+      `https://rentify-da6y.onrender.com/userdetails`,
       {
         email: data.createdby,
       },

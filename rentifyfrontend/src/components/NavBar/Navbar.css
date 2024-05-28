@@ -1,0 +1,44 @@
+/* Navbar.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  width: 100%;
+  z-index: 1;
+  box-shadow: 25px;
+  box-shadow: wheat;
+}
+
+.navbar-logo a {
+  color: white;
+
+  text-decoration: none;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-right a {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+
+  margin-right: 50px;
+}
+
+.navbar-right a:hover {
+  text-decoration: underline;
+}
+.Mylistings {
+  text-decoration: none;
+  color: white;
+}
+.Mylistings:hover {
+  text-decoration: underline;
+  color: white;
+}

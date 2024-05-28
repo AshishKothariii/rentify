@@ -1,0 +1,10 @@
+.mylistingcontainer {
+  position: relative;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  top: 4%;
+  gap: "10px";
+  margin-left: 10%;
+  flex-direction: column;
+}

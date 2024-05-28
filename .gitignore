@@ -1,0 +1,24 @@
+rentifybackend/.env
+rentifyfrontend/logs
+rentifyfrontend/*.log
+rentifyfrontend/npm-debug.log*
+rentifyfrontend/arn-debug.log*
+rentifyfrontend/yarn-error.log*
+rentifyfrontend/pnpm-debug.log*
+rentifyfrontend/lerna-debug.log*
+
+rentifyfrontend/node_modules
+rentifyfrontend/dist
+rentifyfrontend/dist-ssr
+rentifyfrontend/*.local
+
+# Editor directories and files
+rentifyfrontend/.vscode/*
+rentifyfrontend/!.vscode/extensions.json
+rentifyfrontend/.idea
+rentifyfrontend/.DS_Store
+rentifyfrontend/*.suo
+rentifyfrontend/*.ntvs*
+rentifyfrontend/*.njsproj
+rentifyfrontend/*.sln
+rentifyfrontend/*.sw?
